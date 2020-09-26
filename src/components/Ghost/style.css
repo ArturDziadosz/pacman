@@ -1,0 +1,21 @@
+.ghost {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+}
+
+.ghost-red {
+    fill: red;
+}
+
+.ghost-orange {
+    fill: orange;
+}
+
+.ghost-blue {
+    fill: lightblue;
+}
+
+.ghost-pink {
+    fill: hotpink;
+}
