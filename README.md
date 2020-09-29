@@ -3,9 +3,9 @@
 Everybody knows **game** pacman.<br>
 The app was written in React.
 
-## Just try it :)
+### Just try it :)
 
-## Can you eat them all?
+### Can you eat them all?
 
 # 
 
