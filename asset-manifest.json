@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/pacman/static/css/main.bb11163f.chunk.css",
-    "main.js": "/pacman/static/js/main.f61821b2.chunk.js",
-    "main.js.map": "/pacman/static/js/main.f61821b2.chunk.js.map",
+    "main.css": "/pacman/static/css/main.7f1d4fd6.chunk.css",
+    "main.js": "/pacman/static/js/main.48af19a3.chunk.js",
+    "main.js.map": "/pacman/static/js/main.48af19a3.chunk.js.map",
     "runtime-main.js": "/pacman/static/js/runtime-main.31137a62.js",
     "runtime-main.js.map": "/pacman/static/js/runtime-main.31137a62.js.map",
     "static/js/2.cb3068d3.chunk.js": "/pacman/static/js/2.cb3068d3.chunk.js",
     "static/js/2.cb3068d3.chunk.js.map": "/pacman/static/js/2.cb3068d3.chunk.js.map",
     "index.html": "/pacman/index.html",
-    "precache-manifest.401b37bd02e516f45ddf2aa33bc93512.js": "/pacman/precache-manifest.401b37bd02e516f45ddf2aa33bc93512.js",
+    "precache-manifest.1eaf7577f5bb2c529789f9c2d10c4912.js": "/pacman/precache-manifest.1eaf7577f5bb2c529789f9c2d10c4912.js",
     "service-worker.js": "/pacman/service-worker.js",
-    "static/css/main.bb11163f.chunk.css.map": "/pacman/static/css/main.bb11163f.chunk.css.map",
+    "static/css/main.7f1d4fd6.chunk.css.map": "/pacman/static/css/main.7f1d4fd6.chunk.css.map",
     "static/js/2.cb3068d3.chunk.js.LICENSE.txt": "/pacman/static/js/2.cb3068d3.chunk.js.LICENSE.txt",
     "static/media/ghost.c504eec3.svg": "/pacman/static/media/ghost.c504eec3.svg",
     "static/media/pacman.03edcd8c.svg": "/pacman/static/media/pacman.03edcd8c.svg"
@@ -18,7 +18,7 @@
   "entrypoints": [
     "static/js/runtime-main.31137a62.js",
     "static/js/2.cb3068d3.chunk.js",
-    "static/css/main.bb11163f.chunk.css",
-    "static/js/main.f61821b2.chunk.js"
+    "static/css/main.7f1d4fd6.chunk.css",
+    "static/js/main.48af19a3.chunk.js"
   ]
 }
