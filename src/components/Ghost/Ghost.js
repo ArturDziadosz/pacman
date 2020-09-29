@@ -9,9 +9,11 @@ class Ghost extends Component {
     state = {
         direction: "left",
         position: {
-            top: 50 * 5,
-            left: 50 * 5,
-        }
+            top: 50 * Math.floor((this.props.boardHeight/50)/2),
+            left: 50 * Math.floor((this.props.boardWidth/50)/2),
+        },
+        boardWidth: this.props.boardWidth,
+        boardHeight: this.props.boardHeight
     }
 
     componentDidMount() {
@@ -40,7 +42,7 @@ class Ghost extends Component {
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
         const {direction} = this.state;
-        const {step, size, border, topScoreBoardHeight} = this.props;
+        const {step, size} = this.props;
 
         if (direction === "up") {
             this.setState({
@@ -53,13 +55,13 @@ class Ghost extends Component {
             this.setState({
                 position: {
                     top: currentTop,
-                    left: Math.min(currentLeft + step, window.innerWidth - border - size)
+                    left: Math.min(currentLeft + step, this.state.boardWidth - size)
                 }
             })
         } else if (direction === "down") {
             this.setState({
                 position: {
-                    top: Math.min(currentTop + step, window.innerHeight - border - size - topScoreBoardHeight),
+                    top: Math.min(currentTop + step, this.state.boardHeight - size),
                     left: currentLeft
                 }
             })
@@ -87,9 +89,6 @@ Ghost.defaultProps = {
     color: "red",
     step: 50,
     size: 50,
-    // TODO: move to config
-    border: 10 * 2,
-    topScoreBoardHeight: 50
 }
 
 export default Ghost;

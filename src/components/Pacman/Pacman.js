@@ -11,7 +11,9 @@ class Pacman extends Component {
         position: {
             top: 0,
             left: 0
-        }
+        },
+        boardWidth: this.props.boardWidth,
+        boardHeight: this.props.boardHeight
     }
 
     constructor(props) {
@@ -27,7 +29,7 @@ class Pacman extends Component {
 
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
-        const {step, size, border, topScoreBoardHeight} = this.props;
+        const {step, size} = this.props;
 
         if (e.keyCode === 38) {
             this.setState({
@@ -42,14 +44,14 @@ class Pacman extends Component {
                 direction: "right",
                 position: {
                     top: currentTop,
-                    left: Math.min(currentLeft + step, window.innerWidth - border - size)
+                    left: Math.min(currentLeft + step, this.state.boardWidth - size)
                 }
             })
         } else if (e.keyCode === 40) {
             this.setState({
                 direction: "down",
                 position: {
-                    top: Math.min(currentTop + step, window.innerHeight - border - size - topScoreBoardHeight),
+                    top: Math.min(currentTop + step, this.state.boardHeight - size),
                     left: currentLeft
                 }
             })
@@ -84,9 +86,6 @@ class Pacman extends Component {
 Pacman.defaultProps = {
     step: 50,
     size: 50,
-    // TODO: move to config
-    border: 10 * 2,
-    topScoreBoardHeight: 50
 }
 
 export default Pacman;

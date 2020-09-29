@@ -5,11 +5,14 @@ import Board from './components/Board';
 
 function App() {
   const [score, setScore] = useState(0);
+  const boardWidth = (Math.floor((window.innerWidth-20)/50)*50);
+  const boardHeight = (Math.floor((window.innerHeight-20-50)/50)*50);
+
   return (
     <div className="App">
 
       <Header score={score}/>
-      <Board setScore={setScore}/>
+      <Board setScore={setScore} boardWidth={boardWidth} boardHeight={boardHeight}/>
     </div>
   );
 }

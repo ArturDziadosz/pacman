@@ -9,16 +9,20 @@ class Board extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            boardWidth: this.props.boardWidth,
+            boardHeight: this.props.boardHeight
+        }
 
         this.pacmanRef = React.createRef();
 
         this.foods = [];
         this.amountOfFood = (
-            (window.innerWidth - this.props.foodSize)
-            * (window.innerHeight - this.props.topScoreBoardHeight)
+            this.state.boardWidth
+            * this.state.boardHeight
         ) / (this.props.foodSize * this.props.foodSize) - 1;
         
-        for (let i = 0; i < this.amountOfFood; i++) {
+        for (let i = 0; i <= this.amountOfFood; i++) {
             this['food' + i] = React.createRef();
         }
     }
@@ -55,7 +59,7 @@ class Board extends Component {
               if ((pacmanY >= currentFoodY && pacmanY <= currentFoodLastY)
                 || (pacmanLastY >= currentFoodY && pacmanLastY <= currentFoodLastY)) {
                 if (!currentFood.state.hidden) {
-                  currentFood.ate(); // !hidden
+                  currentFood.ate();
                   // this.props.increase(); // increase score
                   this.props.setScore((value) => value + 1)
                 }
@@ -67,17 +71,17 @@ class Board extends Component {
 
     render () {
 
-        const {foodSize, border, topScoreBoardHeight} = this.props;
+        const {foodSize} = this.props;
         let foods = [];
         let currentTop = 0;
         let currentLeft = 1 * foodSize;
 
         for (let i = 0; i < this.amountOfFood; i++) {
-            if (currentLeft + foodSize >= window.innerWidth - border) {
+            if (currentLeft >= this.state.boardWidth) {
                 currentTop += this.props.foodSize;
                 currentLeft = 0;
             }
-            if (currentTop + foodSize >= (window.innerHeight - border - topScoreBoardHeight)) {
+            if (currentTop >= this.state.boardHeight) {
                 break;
             }
 
@@ -89,12 +93,12 @@ class Board extends Component {
         }
 
         return (
-            <main className="board">
-                <Pacman ref={this.pacmanRef}/>
-                <Ghost color="pink"/>
-                <Ghost />
-                <Ghost color="blue"/>
-                <Ghost color="orange"/>
+            <main className="board" style={{height: this.state.boardHeight, width: this.state.boardWidth}}>
+                <Pacman ref={this.pacmanRef} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                <Ghost color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                <Ghost boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                <Ghost color="blue" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                <Ghost color="orange" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                 {foods}
             </main>
         )
@@ -103,9 +107,6 @@ class Board extends Component {
 
 Board.defaultProps = {
     foodSize: 50,
-    // TODO: move to config
-    border: 10 * 2,
-    topScoreBoardHeight: 50
 }
 
 export default Board;
