@@ -9,9 +9,9 @@
 }
 
 .food-dot {
-    width: 13px;
-    height: 13px;
+    width: 14px;
+    height: 14px;
     background-color: white;
-    margin: 16px;
+    margin: 18px;
     border-radius: 50%;
 }
