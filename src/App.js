@@ -12,7 +12,7 @@ function App() {
     <div className="App">
 
       <Header score={score}/>
-      <Board setScore={setScore} boardWidth={boardWidth} boardHeight={boardHeight}/>
+      <Board score={score} setScore={setScore} boardWidth={boardWidth} boardHeight={boardHeight}/>
     </div>
   );
 }

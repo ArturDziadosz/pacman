@@ -11,7 +11,8 @@ class Board extends Component {
         super(props);
         this.state = {
             boardWidth: this.props.boardWidth,
-            boardHeight: this.props.boardHeight
+            boardHeight: this.props.boardHeight,
+            won: false
         }
 
         this.pacmanRef = React.createRef();
@@ -60,8 +61,14 @@ class Board extends Component {
                 || (pacmanLastY >= currentFoodY && pacmanLastY <= currentFoodLastY)) {
                 if (!currentFood.state.hidden) {
                   currentFood.ate();
-                  // this.props.increase(); // increase score
-                  this.props.setScore((value) => value + 1)
+                  this.props.setScore((value) => value + 1);
+
+                  if (this.props.score >= this.amountOfFood) {
+                    this.setState({
+                        won: true
+                    })
+                    clearInterval(this.intervalFood);
+                  }
                 }
               }
             }
@@ -94,12 +101,16 @@ class Board extends Component {
 
         return (
             <main className="board" style={{height: this.state.boardHeight, width: this.state.boardWidth}}>
+                {this.state.won ? <div className={"text-won"}>You won!!!</div> :
+                <>
                 <Pacman ref={this.pacmanRef} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                 <Ghost color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                 <Ghost boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                 <Ghost color="blue" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                 <Ghost color="orange" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                 {foods}
+                </>
+                }
             </main>
         )
     }
