@@ -8,10 +8,9 @@
     justify-content: center;
 }
 
-.text-won {
+.text {
     color: #fff;
     padding: 0 10px;
     font-size: 50px;
     font-weight: bold;
-    text-decoration: underline;
 }

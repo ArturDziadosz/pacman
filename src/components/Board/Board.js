@@ -12,10 +12,17 @@ class Board extends Component {
         this.state = {
             boardWidth: this.props.boardWidth,
             boardHeight: this.props.boardHeight,
+            eatenByGhost: false,
             won: false
         }
 
         this.pacmanRef = React.createRef();
+
+        for (let i = 0 ; i < 4; i++) {
+            this['ghost'+ i ] = React.createRef();
+        }
+
+        this.ghostRef = React.createRef();
 
         this.foods = [];
         this.amountOfFood = (
@@ -29,14 +36,14 @@ class Board extends Component {
     }
 
     componentDidMount() {
-        this.intervalFood = setInterval(this.lookForEat, 10);
+        this.intervalCollision = setInterval(this.lookForEatOrBeEaten, 10);
     }
 
     componentWillUnmount() {
-        clearInterval(this.intervalFood);
+        clearInterval(this.intervalCollision);
     }
 
-    lookForEat = () => {
+    lookForEatOrBeEaten = () => {
         const pacmanX = this.pacmanRef.current.state.position.left;
         const pacmanY = this.pacmanRef.current.state.position.top;
         const pacmanSize = this.pacmanRef.current.props.size
@@ -45,36 +52,61 @@ class Board extends Component {
         const pacmanLastY = pacmanY + pacmanSize / 2;
     
         for (let i = 0; i <= this.amountOfFood; i++) {
+            const currentFood = this['food' + i].current;
 
-          const currentFood = this['food' + i].current;
-          if (currentFood) {
-            const currentFoodX = currentFood.state.position.left;
-            const currentFoodY = currentFood.state.position.top;
-            const currentFoodSize = currentFood.props.foodSize;
-            const currentFoodLastX = currentFoodX + currentFoodSize / 2;
-            const currentFoodLastY = currentFoodY + currentFoodSize / 2;
+            if (currentFood) {
+                const currentFoodX = currentFood.state.position.left;
+                const currentFoodY = currentFood.state.position.top;
+                const currentFoodSize = currentFood.props.foodSize;
+                const currentFoodLastX = currentFoodX + currentFoodSize / 2;
+                const currentFoodLastY = currentFoodY + currentFoodSize / 2;
     
             if (
-              (pacmanX >= currentFoodX && pacmanX <= currentFoodLastX)
-              || (pacmanLastX >= currentFoodX && pacmanLastX <= currentFoodLastX)) {
-              if ((pacmanY >= currentFoodY && pacmanY <= currentFoodLastY)
-                || (pacmanLastY >= currentFoodY && pacmanLastY <= currentFoodLastY)) {
-                if (!currentFood.state.hidden) {
-                  currentFood.ate();
-                  this.props.setScore((value) => value + 1);
+                (pacmanX >= currentFoodX && pacmanX <= currentFoodLastX)
+                || (pacmanLastX >= currentFoodX && pacmanLastX <= currentFoodLastX)) {
+                    if ((pacmanY >= currentFoodY && pacmanY <= currentFoodLastY)
+                    || (pacmanLastY >= currentFoodY && pacmanLastY <= currentFoodLastY)) {
+                        if (!currentFood.state.hidden) {
+                            currentFood.ate();
+                            this.props.setScore((value) => value + 1);
 
-                  if (this.props.score >= this.amountOfFood) {
-                    this.setState({
-                        won: true
-                    })
-                    clearInterval(this.intervalFood);
-                  }
+                            if (this.props.score >= this.amountOfFood) {
+                                this.setState({
+                                    won: true
+                                })
+                            clearInterval(this.intervalCollision);
+                            }
+                        }
+                    }
                 }
-              }
             }
-          }
         }
-      }
+          
+        for (let i = 0; i < 4; i++) {
+            const currentGhost = this['ghost' + i].current;
+
+            if (currentGhost) {
+                const currentGhostX = currentGhost.state.position.left;
+                const currentGhostY = currentGhost.state.position.top;
+                const currentGhostSize = currentGhost.props.size
+          
+                const currentGhostLastX = currentGhostX + currentGhostSize / 2;
+                const currentGhostLastY = currentGhostY + currentGhostSize / 2;
+      
+                if (
+                    (pacmanX >= currentGhostX && pacmanX <= currentGhostLastX)
+                    || (pacmanLastX >= currentGhostX && pacmanLastX <= currentGhostLastX)) {
+                        if ((pacmanY >= currentGhostY && pacmanY <= currentGhostLastY)
+                            || (pacmanLastY >= currentGhostY && pacmanLastY <= currentGhostLastY)) {
+                                this.setState({
+                                    eatenByGhost: true
+                                })
+                                clearInterval(this.intervalCollision);
+                            }
+                    }
+            }        
+        }
+    }
 
     render () {
 
@@ -101,15 +133,19 @@ class Board extends Component {
 
         return (
             <main className="board" style={{height: this.state.boardHeight, width: this.state.boardWidth}}>
-                {this.state.won ? <div className={"text-won"}>You won!!!</div> :
-                <>
-                <Pacman ref={this.pacmanRef} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                <Ghost color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                <Ghost boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                <Ghost color="blue" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                <Ghost color="orange" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                {foods}
-                </>
+                {this.state.won || this.state.eatenByGhost ? 
+                    this.state.won ? 
+                        <div className={"text"}>You won!!!</div> 
+                        : <div className={"text"}>Game Over</div>
+                :
+                    <>
+                        <Pacman ref={this.pacmanRef} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost0']} color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost1']} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost2']} color="blue" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost3']} color="orange" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        {foods}
+                    </>
                 }
             </main>
         )
