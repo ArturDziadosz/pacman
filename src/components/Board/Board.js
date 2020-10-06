@@ -15,7 +15,8 @@ class Board extends Component {
             eatenByGhost: false,
             won: false,
             isPacmanFocused: true,
-            focusOnPacman: false
+            focusOnPacman: false,
+            isMobile: false
         }
 
         this.pacmanRef = React.createRef();
@@ -39,6 +40,7 @@ class Board extends Component {
 
     componentDidMount() {
         this.intervalCollision = setInterval(this.lookForEatOrBeEaten, 10);
+        this.isMobile();
     }
 
     componentWillUnmount() {
@@ -100,10 +102,12 @@ class Board extends Component {
                     || (pacmanLastX >= currentGhostX && pacmanLastX <= currentGhostLastX)) {
                         if ((pacmanY >= currentGhostY && pacmanY <= currentGhostLastY)
                             || (pacmanLastY >= currentGhostY && pacmanLastY <= currentGhostLastY)) {
-                                this.setState({
-                                    eatenByGhost: true
-                                })
-                                clearInterval(this.intervalCollision);
+                                if (!this.state.isMobile) {
+                                    this.setState({
+                                        eatenByGhost: true
+                                    })
+                                    clearInterval(this.intervalCollision);
+                                }
                             }
                     }
             }        
@@ -131,6 +135,14 @@ class Board extends Component {
 
     reload = () => {
         window.location.reload();
+    }
+
+    isMobile = () => {
+        if (!window.matchMedia("(hover)").matches) {
+            this.setState({
+                isMobile: true
+            })
+        }
     }
 
     render () {
@@ -165,6 +177,7 @@ class Board extends Component {
                 :
                     <>
                         {this.state.isPacmanFocused ? null : <div className={"pausedBoard"}><p>Paused</p><p onClick={this.focusOnPacman}>Click here to resume</p></div> }
+                        {this.state.isMobile ? <div className={"pausedBoard mobileBoard"}><p>Mobile it's out of order.<br/>You need a keyboard to play pacman.</p></div> : null}
                         <Pacman ref={this.pacmanRef} focusOnPacman={this.state.focusOnPacman} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                         <Ghost ref={this['ghost0']} isPacmanFocused={this.state.isPacmanFocused} color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                         <Ghost ref={this['ghost1']} isPacmanFocused={this.state.isPacmanFocused} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
