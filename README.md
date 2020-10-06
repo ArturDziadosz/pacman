@@ -13,7 +13,7 @@ The app was written in React.
 ## [Pacman](https://arturdziadosz.github.io/pacman/)
 
 ## Tech stack:
-### `React` `Node.js` `npm` `React-App` `RxJS` `JS` `ES6+` `HTML5` `CSS3` `gh-pages` `RWD` 
+### `React` `React Hooks` `Node.js` `npm` `React-App` `RxJS` `JS` `ES6+` `HTML5` `CSS3` `gh-pages` `RWD` 
 
 #
 
