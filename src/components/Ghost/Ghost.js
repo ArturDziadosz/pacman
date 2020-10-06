@@ -17,8 +17,8 @@ class Ghost extends Component {
     }
 
     componentDidMount() {
-        this.changeDirectionInterval = setInterval(this.changeDirection, 500);
-        this.moveInterval = setInterval(this.move, 500);
+            this.changeDirectionInterval = setInterval(this.changeDirection, 500);
+            this.moveInterval = setInterval(this.move, 500);
     }
 
     componentWillUnmount() {
@@ -37,41 +37,41 @@ class Ghost extends Component {
 
     move = () => {
 
-        // TODO: refactor
-
         const currentTop = this.state.position.top;
         const currentLeft = this.state.position.left;
         const {direction} = this.state;
         const {step, size} = this.props;
 
-        if (direction === "up") {
-            this.setState({
-                position: {
-                    top: Math.max(currentTop - step, 0),
-                    left: currentLeft
-                }
-            })
-        } else if (direction === "right") {
-            this.setState({
-                position: {
-                    top: currentTop,
-                    left: Math.min(currentLeft + step, this.state.boardWidth - size)
-                }
-            })
-        } else if (direction === "down") {
-            this.setState({
-                position: {
-                    top: Math.min(currentTop + step, this.state.boardHeight - size),
-                    left: currentLeft
-                }
-            })
-        } else if (direction === "left") {
-            this.setState({
-                position: {
-                    top: currentTop,
-                    left: Math.max(currentLeft - step,0)
-                }
-            })
+        if (this.props.isPacmanFocused) {
+            if (direction === "up") {
+                this.setState({
+                    position: {
+                        top: Math.max(currentTop - step, 0),
+                        left: currentLeft
+                    }
+                })
+            } else if (direction === "right") {
+                this.setState({
+                    position: {
+                        top: currentTop,
+                        left: Math.min(currentLeft + step, this.state.boardWidth - size)
+                    }
+                })
+            } else if (direction === "down") {
+                this.setState({
+                    position: {
+                        top: Math.min(currentTop + step, this.state.boardHeight - size),
+                        left: currentLeft
+                    }
+                })
+            } else if (direction === "left") {
+                this.setState({
+                    position: {
+                        top: currentTop,
+                        left: Math.max(currentLeft - step,0)
+                    }
+                })
+            }
         }
     }
 

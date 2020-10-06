@@ -13,7 +13,9 @@ class Board extends Component {
             boardWidth: this.props.boardWidth,
             boardHeight: this.props.boardHeight,
             eatenByGhost: false,
-            won: false
+            won: false,
+            isPacmanFocused: true,
+            focusOnPacman: false
         }
 
         this.pacmanRef = React.createRef();
@@ -106,6 +108,25 @@ class Board extends Component {
                     }
             }        
         }
+
+        if (!this.state.won && !this.state.eatenByGhost) {
+            if (this.pacmanRef.current.state.isFocused) {
+                this.setState({
+                    isPacmanFocused: true
+                })
+            } else {
+                this.setState({
+                    isPacmanFocused: false
+                })
+            }
+        }
+
+    }
+
+    focusOnPacman = () => {
+        this.setState({
+            focusOnPacman: !this.state.focusOnPacman
+        })
     }
 
     render () {
@@ -139,11 +160,12 @@ class Board extends Component {
                         : <div className={"text"}>Game Over</div>
                 :
                     <>
-                        <Pacman ref={this.pacmanRef} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                        <Ghost ref={this['ghost0']} color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                        <Ghost ref={this['ghost1']} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                        <Ghost ref={this['ghost2']} color="blue" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
-                        <Ghost ref={this['ghost3']} color="orange" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        {this.state.isPacmanFocused ? null : <div className={"pausedBoard"}><p>Paused</p><p onClick={this.focusOnPacman}>Click here to resume</p></div> }
+                        <Pacman ref={this.pacmanRef} focusOnPacman={this.state.focusOnPacman} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost0']} isPacmanFocused={this.state.isPacmanFocused} color="pink" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost1']} isPacmanFocused={this.state.isPacmanFocused} boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost2']} isPacmanFocused={this.state.isPacmanFocused} color="blue" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
+                        <Ghost ref={this['ghost3']} isPacmanFocused={this.state.isPacmanFocused} color="orange" boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth}/>
                         {foods}
                     </>
                 }

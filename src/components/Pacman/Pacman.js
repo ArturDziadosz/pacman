@@ -13,7 +13,9 @@ class Pacman extends Component {
             left: 0
         },
         boardWidth: this.props.boardWidth,
-        boardHeight: this.props.boardHeight
+        boardHeight: this.props.boardHeight,
+        isFocused: true,
+        focusOnPacman: this.props.focusOnPacman
     }
 
     constructor(props) {
@@ -23,6 +25,29 @@ class Pacman extends Component {
 
     componentDidMount() {
         this.pacmanRef.current.focus();
+        this.intervalFocusedOnPacman = setInterval(this.isPacmanFocused, 10);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.focusOnPacman !== prevProps.focusOnPacman) {
+            this.pacmanRef.current.focus();
+        }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.isPacmanFocused);
+    }
+
+    isPacmanFocused = () => {
+        if (document.activeElement === this.pacmanRef.current) {
+            this.setState({
+                isFocused: true
+            })
+        } else {
+            this.setState({
+                isFocused: false
+            })
+        }
     }
 
     handleKeyDown = (e) => {
