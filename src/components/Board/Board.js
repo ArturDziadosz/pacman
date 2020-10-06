@@ -113,7 +113,7 @@ class Board extends Component {
             }        
         }
 
-        if (!this.state.won && !this.state.eatenByGhost) {
+        if (!this.state.won && !this.state.eatenByGhost && !this.state.isMobile)  {
             if (this.pacmanRef.current.state.isFocused) {
                 this.setState({
                     isPacmanFocused: true
