@@ -129,6 +129,10 @@ class Board extends Component {
         })
     }
 
+    reload = () => {
+        window.location.reload();
+    }
+
     render () {
 
         const {foodSize} = this.props;
@@ -156,8 +160,8 @@ class Board extends Component {
             <main className="board" style={{height: this.state.boardHeight, width: this.state.boardWidth}}>
                 {this.state.won || this.state.eatenByGhost ? 
                     this.state.won ? 
-                        <div className={"text"}>You won!!!</div> 
-                        : <div className={"text"}>Game Over</div>
+                        <div className={"text"}><p>You won!!!</p><p onClick={this.reload}>Do you want to play again?</p></div> 
+                        : <div className={"text"}><p>Game Over</p><p onClick={this.reload}>Do you want to play again?</p></div>
                 :
                     <>
                         {this.state.isPacmanFocused ? null : <div className={"pausedBoard"}><p>Paused</p><p onClick={this.focusOnPacman}>Click here to resume</p></div> }
